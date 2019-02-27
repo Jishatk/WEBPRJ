@@ -99,8 +99,8 @@
           <li class="dropdown">
             <a href="javascript:void(0)" class="dropbtn">Members</a>
             <div class="dropdown-content">
-              <a href="addmember.jsp">View students</a>
-              <a href="#">View Staff</a>
+              <a href="Studview.jsp">View students</a>
+              <a href="Staffview.jsp">View Staff</a>
             </div>
           </li>
           <li class="dropdown">
@@ -124,6 +124,7 @@
                   <a href="Staffbookreturn.jsp">Staff</a>
                 </div>
             </li> 
+            <li><a href="/school/logout.jsp">Sign Out</a></li>
         </ul>
          <form action="retServlet" method="post">
        <table>

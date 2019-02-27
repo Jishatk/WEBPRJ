@@ -10,11 +10,8 @@ import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -27,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author STUDENTS
  */
-public class staffServlet extends HttpServlet {
+public class viewstudServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -40,64 +37,28 @@ public class staffServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        long lmob=0l;
-        int istd;
-         String fname=request.getParameter("fname");
-            String lname=request.getParameter("lname");
-            String gname=request.getParameter("gname");
-            String dob=request.getParameter("dob");
-            String mob=request.getParameter("mob");
-            String email=request.getParameter("email");
-            String addr=request.getParameter("addr");
-            String gen=request.getParameter("gender");
-            String uname=request.getParameter("uname");
-            String pass=request.getParameter("pass");
-         try {    
-            DateFormat df=new SimpleDateFormat("yyyy-mm-dd");
-        
-            Date db=df.parse(dob);
-            java.sql.Date dt=new java.sql.Date(db.getTime());
-            try{
-            lmob=Long.parseLong(mob);
-           
-            }
-            catch(NumberFormatException nfe)
-            {
-                
-            }
-            out.print(fname+lname+gname+dt+addr+gen);out.print(mob+email);
-           
+        try {
+            response.setContentType("text/html;charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            String s = null;
+            String p = null;
+            String snam=request.getParameter("sname");
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            String s="jdbc:sqlserver://localhost;databaseName=schooldb;user=sa;password=password123";
-            String q="insert into staff values(?,?,?,?,?,?,?,?,?)";
-            Connection con=DriverManager.getConnection(s);
-            PreparedStatement ps=con.prepareStatement(q);
-            ps.setString(1,fname);
-            ps.setString(2,lname);
-            ps.setString(3,gen);
-            ps.setLong(4,lmob);
-            ps.setString(5,gname);
-            ps.setString(6,email);
-            ps.setDate(7,dt);
-                      
-            ps.setString(8,uname);
-            ps.setString(9,pass);
-            int c=ps.executeUpdate();
-            out.print(c);
-            if(c==1){
-                RequestDispatcher rd=request.getRequestDispatcher("Adminhome.jsp");
-                rd.forward(request, response);
-            }
-            
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }catch (ClassNotFoundException ex) {
-           ex.printStackTrace();
+            String S;
+            S = "jdbc:sqlserver://localhost;databaseName=schooldb;user=sa;password=password123";
+            String q="select * from student where  fname=?";
+            Connection con;
+            con = DriverManager.getConnection(S);
+            PreparedStatement st= con.prepareStatement(q);
+            st.setString(1, snam);
+            ResultSet rs=st.executeQuery();
+            request.setAttribute("res", rs);
+            RequestDispatcher rd=request.getRequestDispatcher("viewstudent.jsp");
+            rd.forward(request, response);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(viewstudServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            ex.printStackTrace();
-          
+            Logger.getLogger(viewstudServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

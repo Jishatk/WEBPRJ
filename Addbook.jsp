@@ -1,17 +1,17 @@
 <%-- 
-    Document   : Staffbook
-    Created on : Jan 28, 2019, 10:51:47 AM
+    Document   : Addbook
+    Created on : Jan 17, 2019, 12:27:20 PM
     Author     : STUDENTS
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
-        
-         <style>
+        <style>
 
             #menu > li:first-child{
                              float: left;
@@ -73,8 +73,18 @@
                 color: #0b2e13;
             }
         </style>
+        
     </head>
     <body>
+        <script type="text/javascript">
+            var Msg ='<%=request.getAttribute("getAlert")%>';
+            if (Msg != "null")) {
+                function alertName(){
+                    alert("Form has been submitted");
+                } 
+            }
+        </script> 
+        
         <ul id="menu">
           <li><a href="#">LIBRARY</a></li>          
           <li><a href="library.jsp">Home</a></li>
@@ -109,24 +119,30 @@
             </li> 
             <li><a href="/school/logout.jsp">Sign Out</a></li>
         </ul>
-        <form action="issueServlet" method="post">
+        <div style="border-style: solid;width: 500px;height:250px;margin-top: 150px;margin-left: 250px">
+            <div align="center">
+        <form action="bookservlet" method="post">
         <table>
         <tr>
-        <td><label for="bname" class="lab">Book Name</label></td>
-        <td><input type="text" class="txtbox" placeholder="" name="bname" id="bname" required="" ></td>
+            <td><label for="recipient-name" class="lab">Bookname</label></td>
+        <td><input type="text" class="txtbox" placeholder="" name="bname" id="recipient-name" required=""></td>
         </tr>
+        <tr>
         <td><label for="aname" class="lab">Author</label></td>
-        <td><input type="text"  placeholder="" name="aname" id="aname" required=""></td>
-        </tr>   
-        <tr>
-        <td><label for="sname" class="lab">Staff Name</label></td>
-        <td><input type="text" class="txtbox" placeholder="" name="sname" id="sname" required="">
-        <input type="text" class="txtbox" placeholder="" name="lname" id="lname" required=""></td>
-        </tr> 
-        <tr>
-        <td><input type="submit" value="Issue" /></td><td></td>
+        <td><input type="text"  placeholder="" name="aname" id="gname" required=""></td>
         </tr>
-        </table>
-        </form> 
+        <tr>
+        <td><label for="qty" class="lab">Quantity</label></td>
+        <td><input type="text"  placeholder="" name="qty" id="qty" required=""></td>
+        </tr>
+        <tr>
+        <td><input type="submit" value="Add" /></td><td></td>
+        </tr>
+            </table>
+        </form>
+            </div>
+        </div>
+        
+        <script type="text/javascript"> window.onload = alertName; </script>
     </body>
 </html>

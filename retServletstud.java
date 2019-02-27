@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -26,15 +27,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class retServletstud extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+    static int qty=0;
+    static int bid=0;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
@@ -46,19 +40,36 @@ public class retServletstud extends HttpServlet {
             String s="jdbc:sqlserver://localhost;databaseName=schooldb;user=sa;password=password123";
             Connection con=DriverManager.getConnection(s);
             String q="";
-            PreparedStatement p,p1=null;
+            PreparedStatement p,p1,p2=null;    
+                       
             if(val.equals("View")){
               q="select * from bkissue1 where admnno=?" ;
               p=con.prepareStatement(q);
               p.setString(1, admno);
               ResultSet rs=p.executeQuery();
               if(rs.next()){
-                  request.setAttribute("res", rs);
+                  bid=rs.getInt("bkid");
+                   Statement st=con.createStatement();
+                    ResultSet rs1=st.executeQuery("select quantity from books where bookid="+bid+"");
+                    rs1.next();
+                    qty=rs1.getInt("quantity");
+                  request.setAttribute("res", rs);                  
                  RequestDispatcher rd=request.getRequestDispatcher("Studbookreturn.jsp");
                  rd.forward(request, response);
               }
-             
-              
+            }
+            if(val.equals("Return")){
+                q="delete from bkissue1 where admnno=?";
+                p1=con.prepareStatement(q);
+                p1.setString(1, admno);
+                int c=p1.executeUpdate();
+                if(c==1){
+                    String q1="update books set quantity=? where bookid=?";
+                     p2=con.prepareStatement(q1);
+                     p2.setInt(1, qty+1);
+                     p2.setInt(2, bid);
+                     int c1=p2.executeUpdate();
+                }
             }
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();

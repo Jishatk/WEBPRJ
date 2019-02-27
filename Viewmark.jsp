@@ -1,16 +1,16 @@
 <%-- 
-    Document   : Staffhome
-    Created on : Jan 16, 2019, 4:52:38 PM
+    Document   : Viewmark
+    Created on : Feb 11, 2019, 3:03:59 PM
     Author     : STUDENTS
 --%>
 
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
-        
+        <title>Marks</title>
         <style>
         #menu > li:first-child{
                  float: left;
@@ -66,18 +66,18 @@
         .dropdown:hover .dropdown-content {
           display: block;
         }
-        </style>
+      </style>
     </head>
     <body>
-    
-    <ul id="menu">
+        
+  <ul id="menu">
     <li><a href="#">ALPHABET TRAINING</a></li>    
     <li><a href="Staffhome.jsp">Home</a></li>
     <li class="dropdown">
         <a href="javascript:void(0)" class="dropbtn">Marks</a>
         <div class="dropdown-content">
         <a href="Entermark.jsp">Mark Entry</a>
-        <a href="Viewmark.jsp">View Marks</a>
+        <a href="Viewmark .jsp">View Marks</a>
         </div>
     </li>
     <li class="dropdown">
@@ -96,6 +96,46 @@
     </li>
     <li ><a href="#news">News</a></li>
     <li ><a href="logout.jsp">SignOut</a></li>
-    </ul>
+  </ul>
+        
+        <center><h3>Mark View </h3></center>
+   <%
+        ResultSet rs=(ResultSet)request.getAttribute("res");
+        String c="",d="";
+        if(rs!=null){
+            c=(String)request.getAttribute("cls");
+            d=(String)request.getAttribute("div");
+
+        }
+    %>      
+    <form action="viewmarkServlet" method="post">
+         Class <input type="text" name="cl" value="<%=c%>" />&nbsp;&nbsp;&nbsp;
+            Div <input type="text" name="dv" value="<%=d%>" />
+            <input type="submit" value="View" name="b"/><br><br><br>
+    </form>
+         <table style="width:80%">
+        <tr><th>Adm No.</th><th>Name</th><th>Subject</th><th>Mark1</th><th>Mark2</th>
+            <th>Total Mark</th><th>Grade</th><th>Result</th><th>Faculty</th></tr>
+        <%
+      
+        if(rs!=null){
+            while(rs.next()){
+                
+              
+     %>
+        <tr>
+            <td><%=rs.getInt("admno")%></td>
+            <td><%=rs.getString("sname")%></td>
+            <td><%=rs.getString("subject")%></td>
+            <td><%=rs.getString("faculty")%></td>
+            <td><%=rs.getInt("totmark")%></td>
+            <td><%=rs.getInt("ce")%></td>
+            <td><%=rs.getInt("total")%></td>
+            <td><%=rs.getString("grade")%></td>
+            <td><%=rs.getString("result")%></td>
+            
+        </tr>
+        <% } }%>
+        </table>
     </body>
 </html>

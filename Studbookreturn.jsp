@@ -1,9 +1,12 @@
 <%-- 
-    Document   : Staffbook
-    Created on : Jan 28, 2019, 10:51:47 AM
+    Document   : Studbookreturn
+    Created on : Jan 17, 2019, 1:25:22 PM
     Author     : STUDENTS
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -11,7 +14,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         
-         <style>
+        <style>
 
             #menu > li:first-child{
                              float: left;
@@ -75,6 +78,22 @@
         </style>
     </head>
     <body>
+        <%
+            String bname="",aname="",sname="",cl="",div="",rtdt="",admno="";
+            
+            DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+            
+            ResultSet rs=(ResultSet)request.getAttribute("res");
+            if(rs!=null){
+                admno=rs.getString("admnno");
+                bname=rs.getString("bkname");
+                aname=rs.getString("auname");
+                sname=rs.getString("name");
+                cl=rs.getString("class");
+                div=rs.getString("div");
+                rtdt=df.format(rs.getDate("rtndt"));
+            }
+        %>
         <ul id="menu">
           <li><a href="#">LIBRARY</a></li>          
           <li><a href="library.jsp">Home</a></li>
@@ -83,7 +102,7 @@
             <a href="javascript:void(0)" class="dropbtn">Members</a>
             <div class="dropdown-content">
               <a href="Studview.jsp">View students</a>
-              <a href="Staffview.jsp">View Staff</a>
+              <a href="Studview.jsp">View Staff</a>
             </div>
           </li>
           <li class="dropdown">
@@ -109,24 +128,40 @@
             </li> 
             <li><a href="/school/logout.jsp">Sign Out</a></li>
         </ul>
-        <form action="issueServlet" method="post">
-        <table>
-        <tr>
-        <td><label for="bname" class="lab">Book Name</label></td>
-        <td><input type="text" class="txtbox" placeholder="" name="bname" id="bname" required="" ></td>
+        <form action="retServletstud" method="post">
+       <table>
+        <tr>   
+        <td><label for="admno" class="lab">Admission No</label></td>
+        <td><input type="text" class="txtbox" placeholder="" name="admno" id="admno" required="" value="<%=admno%>" >
+        <input type="submit" value="View" name="b" /></td>
+        </tr>   
+        <tr>   
+        <td><label class="lab">Book Name</label></td>
+        <td><input type="text" class="txtbox" name="bname" value="<%=bname%>" /></td>
         </tr>
         <td><label for="aname" class="lab">Author</label></td>
-        <td><input type="text"  placeholder="" name="aname" id="aname" required=""></td>
+        <td><input type="text" class="txtbox"  name="aname" value="<%=aname%>"></td>
         </tr>   
         <tr>
-        <td><label for="sname" class="lab">Staff Name</label></td>
-        <td><input type="text" class="txtbox" placeholder="" name="sname" id="sname" required="">
-        <input type="text" class="txtbox" placeholder="" name="lname" id="lname" required=""></td>
+        <td><label for="sname" class="lab">Student Name</label></td>
+        <td><input type="text" class="txtbox"  name="sname" id="sname" value="<%=sname%>" ></td>
         </tr> 
         <tr>
-        <td><input type="submit" value="Issue" /></td><td></td>
+        <td><label for="cl" class="lab">Class</label></td>
+        <td><input type="text" class="txtbox" placeholder="" name="cl" id="cl" value="<%=cl%>"></td>
+        </tr> 
+        <tr>
+        <td><label for="div" class="lab">Division</label></td>
+        <td><input type="text" class="txtbox" placeholder="" name="div" id="div" value="<%=div%>"></td>
+        </tr>
+        <tr>
+         <td><label for="rdt" class="lab">Return Date</label></td>
+        <td><input type="text" class="txtbox" placeholder="" name="rdt" id="rdt" value="<%=rtdt%>"></td>   
+        <tr>
+        <tr>
+        <td><input type="submit" value="Return" name="b" /></td><td></td>
         </tr>
         </table>
-        </form> 
+         </form>
     </body>
 </html>

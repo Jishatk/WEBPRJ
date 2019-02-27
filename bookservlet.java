@@ -19,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,6 +41,7 @@ public class bookservlet extends HttpServlet {
         try {
             response.setContentType("text/html;charset=UTF-8");
             PrintWriter out = response.getWriter();
+            HttpSession session=request.getSession(true);
             String bname=request.getParameter("bname");
             String aname=request.getParameter("aname");
             String qty=request.getParameter("qty");
@@ -77,12 +79,24 @@ public class bookservlet extends HttpServlet {
                 out.print(c);
             }
             if(c==1){
-                RequestDispatcher rd=request.getRequestDispatcher("library.jsp");
-                rd.forward(request, response);
+  /*              request.setAttribute("getAlert", "Yes"); 
+            response.sendRedirect("Addbook.jsp");
+           request.setAttribute("loginError","Incorrect password");*/
+           out.println("<meta http-equiv='refresh' content='1;URL=Addbook.jsp'>");//redirects after 3 seconds
+   out.println("<p style='color:red;'>User or password incorrect!</p>");
+   
+ /* request.setAttribute("loginError","Incorrect password");
+  
+  out.println("<script type=\"text/javascript\">");
+   
+   out.println("location='Addbook.jsp';");out.println("alert('Book added successfully');");
+   out.println("</script>");*/
+   
+          // response.sendRedirect("Addbook.jsp");
+              //  RequestDispatcher rd=request.getRequestDispatcher("Addbook.jsp");
+              //  rd.forward(request, response);
             }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(bookservlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(bookservlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         

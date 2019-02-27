@@ -60,16 +60,17 @@ public class issueServletstud extends HttpServlet {
             ResultSet rs=p.executeQuery();
             rs.next();
             int admno=rs.getInt("admno");
-            String q1="select quantity from books where bookname=? and authorname=? ";
+            String q1="select quantity,bookid from books where bookname=? and authorname=? ";
             PreparedStatement p1=con.prepareStatement(q1);
             p1.setString(1,bname);
             p1.setString(2,aname);
             ResultSet rs1=p1.executeQuery();
             rs1.next();
             int qty=rs1.getInt("quantity");
+            int bkid=rs1.getInt("bookid");
             if(qty>0)
             {
-                String q2="insert into bkissue1 values(?,?,?,?,?,?,?,?)";
+                String q2="insert into bkissue1 values(?,?,?,?,?,?,?,?,?)";
                 PreparedStatement p2=con.prepareStatement(q2);
                 p2.setInt(1,admno);
                 p2.setString(2,sname+" "+lname);
@@ -79,6 +80,7 @@ public class issueServletstud extends HttpServlet {
                 p2.setDate(6, sqldt2);
                 p2.setInt(7,Integer.parseInt(cl));
                 p2.setString(8, div);
+                p2.setInt(9, bkid);
                 int c=p2.executeUpdate();
                 if(c==1){
                     String q3="update books set quantity=? where bookname=? and authorname=?";

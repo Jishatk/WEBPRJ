@@ -1,17 +1,20 @@
 <%-- 
-    Document   : Staffhome
-    Created on : Jan 16, 2019, 4:52:38 PM
-    Author     : STUDENTS
+    Document   : Viewatt
+    Created on : Feb 8, 2019, 12:02:58 PM
+    Author     : ADMIN
 --%>
 
+<%@page import="java.text.DateFormat"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.util.Date"%>
+<%@page import="java.sql.ResultSet"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
-        
-        <style>
+        <title>Attendence</title>
+      <style>
         #menu > li:first-child{
                  float: left;
                  font-size: 30px;
@@ -66,18 +69,17 @@
         .dropdown:hover .dropdown-content {
           display: block;
         }
-        </style>
+     </style>
     </head>
     <body>
-    
-    <ul id="menu">
+  <ul id="menu">
     <li><a href="#">ALPHABET TRAINING</a></li>    
     <li><a href="Staffhome.jsp">Home</a></li>
     <li class="dropdown">
         <a href="javascript:void(0)" class="dropbtn">Marks</a>
         <div class="dropdown-content">
         <a href="Entermark.jsp">Mark Entry</a>
-        <a href="Viewmark.jsp">View Marks</a>
+        <a href="Viewmarks.jsp">View Marks</a>
         </div>
     </li>
     <li class="dropdown">
@@ -96,6 +98,39 @@
     </li>
     <li ><a href="#news">News</a></li>
     <li ><a href="logout.jsp">SignOut</a></li>
-    </ul>
-    </body>
+  </ul>
+    <center><h3>Attendence </h3></center>
+    <%
+            ResultSet rs=(ResultSet)request.getAttribute("res");
+            String c="",d="";
+            if(rs!=null){
+                c=(String)request.getAttribute("cls");
+                d=(String)request.getAttribute("div");
+                
+            }
+    %>        
+    <form action="viewatServlet" method="post">
+         Class <input type="text" name="cl" value="<%=c%>" />&nbsp;&nbsp;&nbsp;
+            Div <input type="text" name="dv" value="<%=d%>" />
+            <input type="submit" value="View" name="b"/><br><br><br>
+    </form>
+    <table style="width:40%">
+        <tr><th>Name</th><th>Attendence</th><th>Date</th><th>Faculty</th></tr>
+    <%
+      
+        if(rs!=null){
+            while(rs.next()){
+                Date dt=rs.getDate("adate");
+                DateFormat df=new SimpleDateFormat("dd-MM-yyyy");
+              
+     %>
+        <tr>
+            <td><%=rs.getString("sname")%></td>
+            <td><%=rs.getString("att")%></td>
+            <td><%=df.format(dt)%></td>
+            <td><%=rs.getString("fac")%></td>
+        </tr>
+        <% } }%>
+    </table>
+</body>
 </html>

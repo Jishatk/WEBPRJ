@@ -1,15 +1,19 @@
 <%-- 
-    Document   : Adminhome
-    Created on : Jan 16, 2019, 4:49:43 PM
+    Document   : newsedit
+    Created on : Feb 25, 2019, 4:34:51 PM
     Author     : STUDENTS
 --%>
 
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.DriverManager"%>
+<%@page import="java.sql.Connection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Home</title>
+        <title>News</title>
         <style>
         #menu > li:first-child{
                  float: left;
@@ -65,10 +69,26 @@
         .dropdown:hover .dropdown-content {
           display: block;
         }
+        .lbl{
+            width:100px;
+            height:50px;
+        }
+        .txt{
+            width:250px;
+            height:40px;
+        }
+        .btn{
+            width:100px;
+            height:50px;
+        }
+        .slct{
+            width:150px;
+            height:50px;
+        }
     </style>
     </head>
     <body>
-    <ul id="menu">
+         <ul id="menu">
     <li><a href="#">ALPHABET TRAINING</a></li>
     <li><a href="#Adminhome"></a></li>
     <li><a href="Adminhome.jsp">Home</a></li>
@@ -94,7 +114,39 @@
         </div>
     </li>
     <li ><a href="logout.jsp">SignOut</a></li>
-  </ul>
-        
+  </ul>  <br><br>
+        <%
+            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");            
+            String s="jdbc:sqlserver://localhost;databaseName=schooldb;user=sa;password=password123";
+            Connection con=DriverManager.getConnection(s);
+            String q="select * from news";
+            Statement st=con.createStatement();
+            ResultSet rs=st.executeQuery(q);
+            ResultSet rs1=(ResultSet)request.getAttribute("res");
+            String str=(String)request.getAttribute("tt");
+            int id=0;
+         %> 
+         <div style="font-size:large; colour: #313A3D;border-style: ridge;width:450px;height:550px; margin-left:250px;padding-left: 20px"><br><br>
+             <form action="newseditServlet" method="post">
+             <label class="lbl">Title  </label><br><br>
+             <% if(str!=null){%><select name="tit" class="slct">
+                 <option value="<%=str%>"><%=str%></option></select><% }else{ %>
+        <select name="tit" class="slct">
+            <option value="select">select</option>
+            <% while(rs.next()) {
+               id=rs.getInt("refid");out.print(id);
+            %>
+            <option value="<%=rs.getString("head")%>"><%=rs.getString("head")%></option>
+            <% } %>
+        </select><% } %>&nbsp;&nbsp;<input type="submit" value="Get" class="btn" name="b"/><br><br><br>
+        <input type="hidden" name="rid" value="<%=id%>"/>
+        <label class="lbl">Description  </label><br><br>
+        <textarea  name="desc" cols="50" rows="10"> 
+            <%if(rs1!=null) { rs1.next();%><%=rs1.getString("descrptn")%><%}%>
+        </textarea><br><br><br>
+        <input type="submit" value="Edit" name="b"/>&nbsp;&nbsp;
+        <input type="submit" value="Delete" class="btn" name="b"/>
+             </form>
+    </div>   
     </body>
 </html>

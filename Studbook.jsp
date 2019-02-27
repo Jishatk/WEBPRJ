@@ -1,6 +1,6 @@
 <%-- 
-    Document   : Staffbook
-    Created on : Jan 28, 2019, 10:51:47 AM
+    Document   : Studbook
+    Created on : Jan 17, 2019, 12:41:13 PM
     Author     : STUDENTS
 --%>
 
@@ -11,7 +11,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
         
-         <style>
+        <style>
 
             #menu > li:first-child{
                              float: left;
@@ -83,7 +83,7 @@
             <a href="javascript:void(0)" class="dropbtn">Members</a>
             <div class="dropdown-content">
               <a href="Studview.jsp">View students</a>
-              <a href="Staffview.jsp">View Staff</a>
+              <a href="Studview.jsp">View Staff</a>
             </div>
           </li>
           <li class="dropdown">
@@ -109,8 +109,8 @@
             </li> 
             <li><a href="/school/logout.jsp">Sign Out</a></li>
         </ul>
-        <form action="issueServlet" method="post">
-        <table>
+       <form action="issueServletstud" method="post">
+       <table>
         <tr>
         <td><label for="bname" class="lab">Book Name</label></td>
         <td><input type="text" class="txtbox" placeholder="" name="bname" id="bname" required="" ></td>
@@ -119,14 +119,29 @@
         <td><input type="text"  placeholder="" name="aname" id="aname" required=""></td>
         </tr>   
         <tr>
-        <td><label for="sname" class="lab">Staff Name</label></td>
+        <td><label for="sname" class="lab">Student Name</label></td>
         <td><input type="text" class="txtbox" placeholder="" name="sname" id="sname" required="">
         <input type="text" class="txtbox" placeholder="" name="lname" id="lname" required=""></td>
         </tr> 
         <tr>
+        <td><label for="cl" class="lab">Class</label></td>
+        <td><select name="cl">
+                <option value="select">select</option>
+                <% for(int i=1;i<=12;i++){ %>
+                <option value="<%=i%>"><%=i%></option>
+                <% } %>
+            </select></td>
+        </tr> 
+        <tr>
+        <td><label for="div" class="lab">Division</label></td>
+        <td><input type="text" class="txtbox" placeholder="" name="div" id="div" required=""></td>
+        </tr>
+        <tr>
+        <tr>
+        <tr>
         <td><input type="submit" value="Issue" /></td><td></td>
         </tr>
         </table>
-        </form> 
+         </form>
     </body>
 </html>

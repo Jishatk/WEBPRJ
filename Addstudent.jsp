@@ -66,10 +66,17 @@
             <%} %>
         </select><br/><br/>
         <label for="div" >Division</label><br/>
-        <select name="div" id="div" width="15px">
+        <select name="div" id="div" >
             <option value="A">A</option><option value="B">B</option><option value="C">C</option>
         </select><br/><br/>
-        
+        <label for="slan" >Second Language(Class 5 and above)</label><br/>
+        <select name="slan" id="slan" >
+            <option value="na">na</option>
+            <option value="Urdu">Urdu</option>
+            <option value="Malayalam">Malayalam</option>
+            <option value="Sanskrit">Sanskrit</option>
+            <option value="Arabic">Arabic</option>
+        </select><br/>
         <label for="uname" >Username</label><br/>
         <input type="text"  placeholder="" name="uname" id="uname" required=""><br/><br/>
         <label for="pass" >Password</label><br/>

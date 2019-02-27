@@ -13,21 +13,21 @@
         <title>Staff</title>
     </head>
     <body>
-        <form action="viewstudServlet" method="post">
+        <form action="viewstaffServlet" method="post">
         Staff Name <input type="text" name="sname" value="" />
         <input type="submit" value="Search" />
        <table  cellspacing="10">
-            <tr><td>Adm.No.</td><td>Name</td><td>Faculty in charge</td><td>email</td><td>Mobile</td></tr>
+            <tr><td>Staff Id</td><td>Name</td><td>Faculty in charge</td><td>email</td><td>Mobile</td></tr>
         <%
-            ResultSet rs=(ResultSet)request.getAttribute("result");
+            ResultSet rs=(ResultSet)request.getAttribute("res");
             if(rs!=null){
                 while(rs.next()){
          %>
          <tr>
-             <td><%=rs.getString("admno")%></td>
+             <td><%=rs.getString("staffid")%></td>
              <td><%=rs.getString("fname")%></td>
-             <td><%=rs.getString("standard")%></td>
-             <td><%=rs.getString("div")%></td>
+             <td><%=rs.getString("faculty")%></td>
+             <td><%=rs.getString("email")%></td>
              <td><%=rs.getString("mob")%></td>
          </tr>
          <%
